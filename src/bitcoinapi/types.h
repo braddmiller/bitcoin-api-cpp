@@ -178,9 +178,9 @@
 		std::string oneTimePubKey;
 		std::string randomSeed;
 		std::vector<std::string> macs;
-		std::String proof;
+		std::string proof;
 		std::vector<std::string> cypherTexts;
-	}
+	};
 
 	struct decoderawtransaction_t{
 		std::string txid;
