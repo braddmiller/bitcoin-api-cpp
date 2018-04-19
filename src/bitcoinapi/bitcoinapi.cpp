@@ -1114,6 +1114,7 @@ decoderawtransaction_t BitcoinAPI::decoderawtransaction(const string& hexString)
 	result = sendcommand(command, params);
 
 	ret.txid = result["txid"].asString();
+	ret.overwintered = result["overwintered"].asBool();
 	ret.version = result["version"].asInt();
 	ret.locktime = result["locktime"].asInt();
 	for (ValueIterator it = result["vin"].begin(); it != result["vin"].end();
@@ -1146,6 +1147,37 @@ decoderawtransaction_t BitcoinAPI::decoderawtransaction(const string& hexString)
 
 		ret.vout.push_back(output);
 	}
+	
+	for (ValueIterator it = result["vjoinsplit"].begin(); it != result["vjoinsplit"].end();
+			it++) {
+		Value val = (*it);
+		vjoinsplit_t output;
+
+		output.vpub_old = val["vpub_old"].asDouble();
+		output.vpub_new = val["vpub_new"].asDouble();
+		output.anchor =  val["anchor"].asString();
+		for(ValueIterator it2 = val["nullifiers"].begin(); it2 != val["nullifiers"].end(); it2++){
+			output.nullifiers.push_back((*it2).asString());
+		}			
+		for(ValueIterator it2 = val["commitments"].begin(); it2 != val["commitments"].end(); it2++){
+			output.commitments.push_back((*it2).asString());
+		}			
+		for(ValueIterator it2 = val["commitments"].begin(); it2 != val["commitments"].end(); it2++){
+			output.commitments.push_back((*it2).asString());
+		}			
+		output.oneTimePubKey =  val["oneTimePubKey"].asString();
+		output.randomSeed = val["randomSeed"].asString();
+		for(ValueIterator it2 = val["macs"].begin(); it2 != val["macs"].end(); it2++){
+			output.macs.push_back((*it2).asString());
+		}			
+		output.proof =  val["proof"].asString();
+		for(ValueIterator it2 = val["cypherTexts"].begin(); it2 != val["cypherTexts"].end(); it2++){
+			output.cypherTexts.push_back((*it2).asString());
+		}			
+
+		ret.vjoinsplit.push_back(output);
+	}
+
 
 	return ret;
 }

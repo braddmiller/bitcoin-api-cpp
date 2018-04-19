@@ -169,12 +169,27 @@
 		scriptPubKey_t scriptPubKey;
 	};
 
+	struct vjoinsplit_t{
+		double vpub_old;
+		double vpub_new;
+		std::string anchor;
+		std::vector<std::string> nullifiers;
+		std::vector<std::string> commitments;
+		std::string oneTimePubKey;
+		std::string randomSeed;
+		std::vector<std::string> macs;
+		std::String proof;
+		std::vector<std::string> cypherTexts;
+	}
+
 	struct decoderawtransaction_t{
 		std::string txid;
+		bool overwintered;
 		int version;
 		int locktime;
 		std::vector<vin_t> vin;
 		std::vector<vout_t> vout;
+		std::vector<vjoinsplit_t> vjoinsplit;
 	};
 
 	/* getrawtransaction return type */
